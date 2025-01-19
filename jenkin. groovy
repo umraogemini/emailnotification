@@ -1,9 +1,10 @@
 pipeline {
     agent any
     environment {
-        GCP_CREDENTIALS = credentials('gcp-service-account-key') // Add GCP service account JSON as Jenkins credentials
+        GCP_CREDENTIALS = credentials('gcp-service-account-key') // GCP service account JSON
         TF_VAR_project_id = 'your-gcp-project-id'                // Replace with your GCP project ID
         TF_VAR_notification_email = 'your-email@example.com'     // Replace with your email
+        TF_VAR_webhook_url = 'https://your-webhook-url.com'       // Replace with your webhook URL
     }
     stages {
         stage('Checkout Code') {
