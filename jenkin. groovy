@@ -1,0 +1,41 @@
+pipeline {
+    agent any
+    environment {
+        GCP_CREDENTIALS = credentials('gcp-service-account-key') // Add GCP service account JSON as Jenkins credentials
+        TF_VAR_project_id = 'your-gcp-project-id'                // Replace with your GCP project ID
+        TF_VAR_notification_email = 'your-email@example.com'     // Replace with your email
+    }
+    stages {
+        stage('Checkout Code') {
+            steps {
+                git 'https://github.com/your-repo/terraform-log-metrics.git' // Replace with your repo URL
+            }
+        }
+        stage('Initialize Terraform') {
+            steps {
+                sh '''
+                terraform init
+                '''
+            }
+        }
+        stage('Plan Terraform') {
+            steps {
+                sh '''
+                terraform plan -out=tfplan
+                '''
+            }
+        }
+        stage('Apply Terraform') {
+            steps {
+                sh '''
+                terraform apply -auto-approve tfplan
+                '''
+            }
+        }
+    }
+    post {
+        always {
+            cleanWs()
+        }
+    }
+}
