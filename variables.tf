@@ -4,6 +4,11 @@ variable "project_id" {
 }
 
 variable "notification_email" {
-  description = "Email for alert notifications"
+  description = "Email for notifications"
+  type        = string
+}
+
+variable "webhook_url" {
+  description = "Webhook URL for notifications"
   type        = string
 }
